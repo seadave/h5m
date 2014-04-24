@@ -54,12 +54,14 @@ classdef File < h5m.Group
             self.filename = arg_filename;
             self.mode = mode;
             
-        end
+        end        
         
         function self = flush(self)
+            error('Not yet implemented');
         end
         
         function self = close(self)
+            error('Not yet implemented');            
         end
         
         

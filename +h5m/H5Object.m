@@ -45,5 +45,21 @@ classdef H5Object < handle
         
     end
     
+    methods (Static)
+        
+        function obj = wrap_identifier(id)
+            % inspect and wrap a low-level id with the appropriate subclass of H5Object
+            info = H5O.get_info(id);
+            switch info.type
+                case H5ML.get_constant_value('H5O_TYPE_GROUP')
+                    obj = h5m.Group(id);
+                case H5ML.get_constant_value('H5O_TYPE_DATASET')
+                    obj = h5m.Dataset(id);
+                otherwise
+                    obj = h5m.H5Object(id);
+            end            
+        end
+    end
+    
 end
 
