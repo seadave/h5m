@@ -24,11 +24,17 @@ classdef File < h5m.Group
                     mode = h5m.File.DEFAULT_MODE;
                 end
                 
-                if exist(arg_filename, 'file') && strcmp(mode,'a')
-                    mode = 'r+';
+                if ~exist('mode','var')
+                    if exist(arg_filename, 'file')
+                        mode = 'r';
+                    else
+                        mode = 'w-';
+                    end
                 else
-                    mode = 'w';
-                end
+                    if exist(arg_filename, 'file') && strcmp(mode,'a')
+                        mode = 'r+';
+                    end
+                end                
                 
                 switch mode
                     case 'r' % open existing read only

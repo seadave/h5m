@@ -38,7 +38,7 @@ classdef AttributeManager < handle
             attr_type_id = H5A.get_type(attr_id);
             attr_space_id = H5A.get_space(attr_id);
             if H5T.detect_class(attr_type_id,'H5T_STRING')
-                if H5S.get_simple_extent_ndims(attr_space_id)==0
+                if iscell(data) && H5S.get_simple_extent_ndims(attr_space_id)==0
                     data = data{1};
                 end
             end
