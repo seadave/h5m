@@ -162,10 +162,29 @@ classdef AttributeManager < handle
                     end
                     % No support for indexing using '{}'
                 case '{}'
-                    error('h5m.AttributeManager.subsref',...
-                        'Not a supported subscripted reference')
+                    error('h5m.AttributeManager.subsref', 'Not a supported subscripted reference')
             end
         end
+        
+        function ret_val = subsasgn(self, s, val)
+            % obj(i) is equivalent to obj.Data(i)
+            switch s(1).type
+                % Use the built-in subsref for dot notation
+                case '.'
+                    ret_val = builtin('subsasgn', self, s, val);
+                case '()'
+                    if length(s)<2
+                        assert(numel(s.subs)==1, 'h5m.AttributeManager.subsasgn', 'Attribute access requires exactly one name');
+                        ret_val = create(self, s.subs{1}, val);
+                        return
+                    else
+                        ret_val = builtin('subsasgn', self, s, val);
+                    end
+                    % No support for indexing using '{}'
+                case '{}'
+                    error('h5m.AttributeManager.subasgn', 'Not a supported subscripted reference')
+            end
+        end        
         
     end
     

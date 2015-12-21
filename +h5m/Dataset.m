@@ -20,14 +20,14 @@ classdef Dataset < h5m.H5Object
         function data = read(self)
             data = H5D.read(self.id);
             did_flip_dims = self.attrs.has(h5m.Dataset.FLIP_DIMS_ATTR_NAME) && self.attrs.get(h5m.Dataset.FLIP_DIMS_ATTR_NAME);
-            if ~did_flip_dims
+            if ndims(data)==2 && ~did_flip_dims
                 data = data';
             end
         end
         
         function self = write(self, data)
             did_flip_dims = self.attrs.has(h5m.Dataset.FLIP_DIMS_ATTR_NAME) && self.attrs.get(h5m.Dataset.FLIP_DIMS_ATTR_NAME);
-            if ~did_flip_dims
+            if ndims(data)==2 && ~did_flip_dims
                 data = data';
             end
             H5D.write(self.id, 'H5ML_DEFAULT', 'H5S_ALL', 'H5S_ALL', 'H5P_DEFAULT', data);
