@@ -216,7 +216,7 @@ classdef Group < h5m.H5Object
                     fcn(rel_id_obj, name);
                 end
             end
-            H5L.visit(self.id, 'H5_INDEX_CRT_ORDER', 'H5_ITER_NATIVE', @fcn_adapter, []);            
+            H5L.iterate(self.id, 'H5_INDEX_NAME', 'H5_ITER_NATIVE', 0, @fcn_adapter, []);
         end
         
         function disp(self, skip_obj_header)
